@@ -2,6 +2,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,6 +18,8 @@ public class FXRunner extends Application {
 
     private LifeGrid lg;
     private GridPane grid;
+    private final FlowPane buttons;
+
     public FXRunner() {
         super();
         lg = new LifeGrid(40,20);
@@ -25,10 +28,17 @@ public class FXRunner extends Application {
         grid.setVgap(2);
         grid.setStyle("-fx-background-color: black;");
 
+        buttons = new FlowPane();
     }
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    void addButton(String text, EventHandler e){
+        Button b = new Button(text);
+        b.setOnAction(e);
+        buttons.getChildren().add(b);
     }
 
     @Override
@@ -50,7 +60,7 @@ public class FXRunner extends Application {
 
 
 
-        Slider slider = new Slider(1,100,5);
+        Slider slider = new Slider(1,1000,5);
 
 
         Animation timeline = new Timeline(
@@ -65,20 +75,17 @@ public class FXRunner extends Application {
 
 
 
-        Button startBtn = new Button("Start");
-        startBtn.setOnAction(event -> timeline.play());
-        Button stopBtn = new Button("Stop");
-
-        stopBtn.setOnAction(event -> timeline.stop());
-        Button nextBtn = new Button("Next");
-
-        nextBtn.setOnAction(event -> {
+        addButton("Start",e -> timeline.play());
+        addButton("Stop",e -> timeline.stop());
+        addButton("Next",e -> {
             lg.next();
             update();
         });
-
-        Button clearBtn = new Button("Clear");
-        clearBtn.setOnAction(e -> {
+        addButton("Undo",e -> {
+            lg.prev();
+            update();
+        });
+        addButton("Clear",e -> {
             lg.clearBoard(); update();
         });
 
@@ -104,20 +111,12 @@ public class FXRunner extends Application {
         update();
 
 
-
-        FlowPane buttons = new FlowPane();
         buttons.setAlignment(Pos.CENTER);
         buttons.setOrientation(Orientation.HORIZONTAL);
-
-        buttons.getChildren().add(startBtn);
-        buttons.getChildren().add(stopBtn);
-        buttons.getChildren().add(nextBtn);
-        buttons.getChildren().add(clearBtn);
-
         buttons.setHgap(10);
 
 
-        VBox root = new VBox(20,grid,buttons,slider);
+        VBox root = new VBox(20,grid, buttons,slider);
         root.setAlignment(Pos.CENTER);
         root.setFillWidth(false);
 

@@ -1,9 +1,16 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Stack;
+
 public class LifeGrid
 {
     private boolean[][] grid;
+    ArrayList<boolean[][]> prev;
+
 
     LifeGrid(int w, int h) {
         grid = new boolean[h][w];
+        prev = new ArrayList<>();
     }
 
     @Override
@@ -32,6 +39,8 @@ public class LifeGrid
     }
 
     void next() {
+        System.out.print("ADD : " + prev.size() + " : ");
+
         boolean[][] tempGrid = new boolean[rows()][cols()];
 
         for(int row = 0; row < rows(); row++){
@@ -49,7 +58,21 @@ public class LifeGrid
                 }
             }
         }
+        long t1 = System.nanoTime();
+        prev.add(grid);
+        System.out.println(System.nanoTime() - t1);
+
+
         grid = tempGrid;
+    }
+
+    void prev() {
+        if(!prev.isEmpty()) {
+            System.out.print("UNDO : " + prev.size() + " : ");
+            long t1 = System.nanoTime();
+            grid = prev.remove(prev.size() - 1);
+            System.out.println(System.nanoTime() - t1);
+        }
     }
 
     private int numNeighbors(int row, int col){
