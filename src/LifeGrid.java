@@ -1,16 +1,14 @@
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Stack;
 
 public class LifeGrid
 {
     private boolean[][] grid;
-    ArrayList<boolean[][]> prev;
+    private Stack<boolean[][]> prev;
 
 
     LifeGrid(int w, int h) {
         grid = new boolean[h][w];
-        prev = new ArrayList<>();
+        prev = new Stack<>();
     }
 
     @Override
@@ -58,20 +56,14 @@ public class LifeGrid
                 }
             }
         }
-        long t1 = System.nanoTime();
-        prev.add(grid);
-        System.out.println(System.nanoTime() - t1);
-
+        prev.push(grid);
 
         grid = tempGrid;
     }
 
     void prev() {
-        if(!prev.isEmpty()) {
-            System.out.print("UNDO : " + prev.size() + " : ");
-            long t1 = System.nanoTime();
-            grid = prev.remove(prev.size() - 1);
-            System.out.println(System.nanoTime() - t1);
+        if(!prev.empty()) {
+            grid = prev.pop();
         }
     }
 

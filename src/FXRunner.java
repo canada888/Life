@@ -2,6 +2,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -35,7 +36,7 @@ public class FXRunner extends Application {
         launch(args);
     }
 
-    void addButton(String text, EventHandler e){
+    private void addButton(String text, EventHandler<ActionEvent> e){
         Button b = new Button(text);
         b.setOnAction(e);
         buttons.getChildren().add(b);
