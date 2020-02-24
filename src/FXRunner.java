@@ -56,23 +56,15 @@ public class FXRunner extends Application {
     public void start(Stage primaryStage) {
 
         primaryStage.setTitle("Game of Life");
-        int startCol = lg.cols()/2;
-        int startRow = lg.rows()/2;
-        for(int i = startCol - 4; i <startCol + 4; i++){
-            lg.change(startRow - 1,i,0);
-            lg.change(startRow,i,0);
-            lg.change(startRow + 1,i,0);
-        }
-        lg.change(startRow,startCol - 3,0);
-        lg.change(startRow,startCol + 2,0);
 
 
 
-        Slider slider = new Slider(1,1000,5);
+
+        Slider slider = new Slider(.5,20,3);
 
 
         Animation timeline = new Timeline(
-                new KeyFrame(Duration.millis(5000), e ->{
+                new KeyFrame(Duration.millis(1000), e ->{
                     lg.next();
                     update();
                 })
