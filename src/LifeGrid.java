@@ -2,12 +2,12 @@ import java.util.Stack;
 
 public class LifeGrid
 {
-    private boolean[][] grid;
-    private Stack<boolean[][]> prev;
+    private boolean[][][] grid;
+    private Stack<boolean[][][]> prev;
 
 
-    LifeGrid(int w, int h) {
-        grid = new boolean[h][w];
+    LifeGrid(int w, int h, int d) {
+        grid = new boolean[h][w][d];
         prev = new Stack<>();
     }
 
@@ -15,11 +15,13 @@ public class LifeGrid
     public String toString() {
         StringBuilder out = new StringBuilder();
 
-        for (boolean[] booleans : grid) {
-            for (int c = 0; c < grid.length; c++) {
-                out.append("[").append(booleans[c] ? "X" : " ").append("]");
+        for (boolean[][] booleansg : grid) {
+            for (boolean[] booleans : booleansg) {
+                for (int c = 0; c < grid.length; c++) {
+                    out.append("[").append(booleans[c] ? "X" : " ").append("]");
+                }
+                out.append("\n");
             }
-            out.append("\n");
         }
         return out.toString();
     }
@@ -32,27 +34,31 @@ public class LifeGrid
         return grid[0].length;
     }
 
-    void change(int row, int col) {
-        grid[row][col] = !grid[row][col];
+    int depth(){
+        return grid[0][0].length;
+    }
+
+    void change(int row, int col, int depth) {
+        grid[row][col][depth] = !grid[row][col][depth];
     }
 
     void next() {
-        System.out.print("ADD : " + prev.size() + " : ");
-
-        boolean[][] tempGrid = new boolean[rows()][cols()];
+        boolean[][][] tempGrid = new boolean[rows()][cols()][depth()];
 
         for(int row = 0; row < rows(); row++){
             for(int col = 0; col < cols(); col++){
-                // 2 cases
-                // count neighbors
-                int neighbors = numNeighbors(row,col);
+                for(int depth = 0; depth < depth(); depth++) {
+                    // 2 cases
+                    // count neighbors
+                    int neighbors = numNeighbors(row, col, depth);
 
-                if(grid[row][col]){
-                    // 1 - alive
-                    tempGrid[row][col] = (neighbors == 2 || neighbors == 3);
-                } else {
-                    // 2 - dead
-                    tempGrid[row][col] = (neighbors == 3);
+                    if (grid[row][col][depth]) {
+                        // 1 - alive
+                        tempGrid[row][col][depth] = (neighbors == 2 || neighbors == 3);
+                    } else {
+                        // 2 - dead
+                        tempGrid[row][col][depth] = (neighbors == 3);
+                    }
                 }
             }
         }
@@ -67,29 +73,28 @@ public class LifeGrid
         }
     }
 
-    private int numNeighbors(int row, int col){
+    private int numNeighbors(int row, int col, int depth){
         int count = 0;
-        count += get(row-1, col-1)?1:0;
-        count += get(row-1, col)?1:0;
-        count += get(row-1, col+1)?1:0;
-        count += get(row, col-1)?1:0;
-        count += get(row, col+1)?1:0;
-        count += get(row+1, col-1)?1:0;
-        count += get(row+1, col)?1:0;
-        count += get(row+1, col+1)?1:0;
+        for(int i = -1; i <= 1; i++)
+            for(int j = -1; j <= 1; j++)
+                for(int k = -1; k <= 1; k++)
+                    if(i != 0 || j != 0 || k != 0)
+                        count += get(row+i,col+j,depth+k)?1:0;
 
         return count;
     }
 
-    boolean get(int row, int col){
-        return grid[(row + rows()) % rows()][(col + cols()) % cols()];
+    boolean get(int row, int col, int depth){
+        return grid[(row + rows()) % rows()][(col + cols()) % cols()][(depth + depth()) % depth()];
     }
 
     void clearBoard() {
         for(int i = 0; i < rows(); i++) {
             for (int j = 0; j < cols(); j++) {
-                if(get(i,j))
-                    change(i,j);
+                for(int k = 0; k < depth(); k++) {
+                    if (get(i, j, k))
+                        change(i, j, k);
+                }
             }
         }
     }
