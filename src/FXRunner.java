@@ -22,6 +22,10 @@ import javafx.util.Duration;
 
 public class FXRunner extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
     private static final int GRID_WIDTH = 12;
@@ -42,9 +46,7 @@ public class FXRunner extends Application {
         cursor = new Point3D(0,0,0);
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+
 
     private void addButton(String text, EventHandler<ActionEvent> e){
         Button b = new Button(text);
@@ -188,7 +190,7 @@ public class FXRunner extends Application {
 
                     PhongMaterial mat = new PhongMaterial();
                     if(i == cursor.getX() && j == cursor.getY() && k == cursor.getZ()){
-                        mat.setDiffuseColor(Color.rgb(52,185,255,.8));
+                        mat.setDiffuseColor(Color.rgb(54,185,255,.8));
                     } else if(lg.get(i,j,k)) {
                         mat.setDiffuseColor(Color.rgb(255,0,255,.8));
                     } else {
