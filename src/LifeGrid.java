@@ -15,8 +15,8 @@ public class LifeGrid
     public String toString() {
         StringBuilder out = new StringBuilder();
 
-        for (boolean[][] booleansg : grid) {
-            for (boolean[] booleans : booleansg) {
+        for (boolean[][] booleans2D : grid) {
+            for (boolean[] booleans : booleans2D) {
                 for (int c = 0; c < grid.length; c++) {
                     out.append("[").append(booleans[c] ? "X" : " ").append("]");
                 }

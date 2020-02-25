@@ -24,9 +24,9 @@ public class FXRunner extends Application {
 
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
-    public static final int GRIDWIDTH = 12;
-    public static final int GRIDHEIGHT = 12;
-    public static final int GRIDDEPTH = 10;
+    private static final int GRID_WIDTH = 12;
+    private static final int GRID_HEIGHT = 12;
+    private static final int GRID_DEPTH = 10;
 
     private LifeGrid lg;
     private final FlowPane buttons;
@@ -35,7 +35,7 @@ public class FXRunner extends Application {
 
     public FXRunner() {
         super();
-        lg = new LifeGrid(GRIDWIDTH, GRIDHEIGHT, GRIDDEPTH);
+        lg = new LifeGrid(GRID_WIDTH, GRID_HEIGHT, GRID_DEPTH);
 
         buttons = new FlowPane();
         group = new Group();
@@ -151,22 +151,22 @@ public class FXRunner extends Application {
                     group.setRotate(group.getRotate() + 5);
                     break;
                 case I:
-                    cursor = new Point3D(cursor.getX(), (cursor.getY() + GRIDHEIGHT - 1) % GRIDHEIGHT, cursor.getZ());
+                    cursor = new Point3D(cursor.getX(), (cursor.getY() + GRID_HEIGHT - 1) % GRID_HEIGHT, cursor.getZ());
                     break;
                 case K:
-                    cursor = new Point3D(cursor.getX(), (cursor.getY() + 1) % GRIDHEIGHT, cursor.getZ());
+                    cursor = new Point3D(cursor.getX(), (cursor.getY() + 1) % GRID_HEIGHT, cursor.getZ());
                     break;
                 case J:
-                    cursor = new Point3D((cursor.getX() + GRIDWIDTH - 1) % GRIDWIDTH, cursor.getY(), cursor.getZ());
+                    cursor = new Point3D((cursor.getX() + GRID_WIDTH - 1) % GRID_WIDTH, cursor.getY(), cursor.getZ());
                     break;
                 case L:
-                    cursor = new Point3D((cursor.getX() + 1) % GRIDWIDTH, cursor.getY(), cursor.getZ());
+                    cursor = new Point3D((cursor.getX() + 1) % GRID_WIDTH, cursor.getY(), cursor.getZ());
                     break;
                 case U:
-                    cursor = new Point3D(cursor.getX(), cursor.getY(), (cursor.getZ() + 1) % GRIDDEPTH);
+                    cursor = new Point3D(cursor.getX(), cursor.getY(), (cursor.getZ() + 1) % GRID_DEPTH);
                     break;
                 case O:
-                    cursor = new Point3D(cursor.getX(), cursor.getY(), (cursor.getZ() + GRIDDEPTH - 1) % GRIDDEPTH);
+                    cursor = new Point3D(cursor.getX(), cursor.getY(), (cursor.getZ() + GRID_DEPTH - 1) % GRID_DEPTH);
                     break;
                 case P:
                     lg.change((int)cursor.getX(),(int)cursor.getY(),(int)cursor.getZ());
