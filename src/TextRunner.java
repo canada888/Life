@@ -9,7 +9,7 @@ public class TextRunner {
         System.out.print("Height: ");
         int height = scan.nextInt();
 
-        LifeGrid lg = new LifeGrid(width,height);
+        LifeGrid lg = new LifeGrid(width,height, 0);
 
         while(true)
         {
@@ -26,7 +26,7 @@ public class TextRunner {
                 int row = scan.nextInt();
                 System.out.print("Enter a col: ");
                 int col = scan.nextInt();
-                lg.change(row,col);
+                lg.change(row,col, 0);
             } else if (option == 2) {
                 lg.next();
             }
